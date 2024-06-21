@@ -10,7 +10,6 @@ app.use(bodyParser.json());
 
 // Usar las rutas de los items
 app.use("/users", usersRoutes); //URI
-app.use("/usersJWT", usersRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {
