@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
 
       const user = result[0];
       console.log(password, user.password);
-      
+
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
         return res.status(404).send("Credenciales Inválidas");
@@ -116,6 +116,7 @@ exports.getUser = [
   },
 ];
 
+// Obtener todos los recepcionistas
 exports.getRecep = [
   authenticateJWT,
   (req, res) => {
@@ -167,12 +168,35 @@ exports.deleteUser = [
   authenticateJWT,
   (req, res) => {
     const id_usuario = req.params.id;
-    db.query("DELETE FROM usuarios WHERE id_usuario = ?", id_usuario, (err, result) => {
-      if (err) {
-        res.status(500).send("Error al eliminar el elemento");
-        throw err;
+    db.query(
+      "DELETE FROM usuarios WHERE id_usuario = ?",
+      id_usuario,
+      (err, result) => {
+        if (err) {
+          res.status(500).send("Error al eliminar el elemento");
+          throw err;
+        }
+        res.send("Elemento eliminado correctamente");
       }
-      res.send("Elemento eliminado correctamente");
-    });
+    );
+  },
+];
+
+//Buscar un elemento
+exports.searchUser = [
+  authenticateJWT,
+  (req, res) => {
+    const user = req.body;
+    db.query(
+      "SELECT id_usuario FROM usuarios WHERE nombre = ? OR apellidoP = ?",
+      [user.nombre, user.apellidoP],
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener el usuario");
+          throw err;
+        }
+        res.json(result);
+      }
+    );
   },
 ];
