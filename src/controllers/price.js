@@ -36,31 +36,29 @@ const authenticateJWT = (req, res, next) => {
 };
 
 //Empezacmos a crear las funciones
-exports.addAppointment = [
+exports.addPrice = [
   authenticateJWT,
   (req, res) => {
-    const cita = req.body;
-    db.query("INSERT INTO citas SET ?", cita, (err, result) => {
+    const cotizacion = req.body;
+    db.query("INSERT INTO cotizacion SET ?", cotizacion, (err, result) => {
       if (err) {
-        res.status(500).send("Error al agregar la cita");
+        res.status(500).send("Error al agregar la cotizacion");
         throw err;
       }
-      res.status(201).send("Cita agregada correctamente");
+      res.status(201).send("Cotrizacion agregada correctamente");
     });
   },
 ];
 
 //Obtener todas las citas
-exports.getAllAppointment = [
+exports.getAllPrice = [
   authenticateJWT,
   (req, res) => {
-    const fecha_actual = req.params.date;
     db.query(
-      "SELECT nombre, correo_electronico, dia, hora_inicio FROM horarios_atencion NATURALJOIN citas NATURALJOIN pacientes WHERE dia >= ?",
-      [fecha_actual],
+      "SELECT nombre, decripcion, costo, precio, promocion FROM analisis NATURALJOIN cotizacion NATURALJOIN promociones",
       async (err, result) => {
         if (err) {
-          res.status(500).send("Error al obtener las citas");
+          res.status(500).send("Error al obtener las cotizaciones");
           throw err;
         }
         res.json(result);
@@ -69,34 +67,14 @@ exports.getAllAppointment = [
   },
 ];
 
-// Actualizar un elemento existente
-exports.updateAppointment = [
-  authenticateJWT,
-  (req, res) => {
-    const id_cita = req.params.id;
-    const updatedCita = req.body;
-    db.query(
-      "UPDATE citas SET ? WHERE id_cita = ?",
-      [updatedCita, id_cita],
-      (err, result) => {
-        if (err) {
-          res.status(500).send("Error al actualizar el elemento");
-          throw err;
-        }
-        res.send("Elemento actualizado correctamente");
-      }
-    );
-  },
-];
-
 // Eliminar un elemento
-exports.deleteAppointment = [
+exports.deletePrice = [
   authenticateJWT,
   (req, res) => {
-    const id_cita = req.params.id;
+    const id_cotizacion = req.params.id;
     db.query(
-      "DELETE FROM citas WHERE id_cita = ?",
-      id_cita,
+      "DELETE FROM cotizacion WHERE id_cotizacion = ?",
+      id_cotizacion,
       (err, result) => {
         if (err) {
           res.status(500).send("Error al eliminar el elemento");

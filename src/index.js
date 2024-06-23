@@ -8,6 +8,9 @@ const analysisRouter = require("./routes/analysis");
 const promotionsRouter = require("./routes/promotions");
 const salesRouter = require("./routes/sales");
 const schedulesRouter = require("./routes/schedules");
+const appointmentsRouter = require("./routes/appointments");
+const priceRouter = require("./routes/price");
+const historyRouter = require("./routes/history");
 
 const app = express();
 const port = process.env.PORT;
@@ -23,6 +26,9 @@ app.use("/analysis", analysisRouter);
 app.use("/promotions", promotionsRouter);
 app.use("/sales", salesRouter);
 app.use("/schedules", schedulesRouter);
+app.use("/appointments", appointmentsRouter);
+app.use("/price", priceRouter);
+app.use("/history", historyRouter);
 
 
 // Iniciar el servidor

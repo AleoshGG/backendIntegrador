@@ -36,31 +36,31 @@ const authenticateJWT = (req, res, next) => {
 };
 
 //Empezacmos a crear las funciones
-exports.addAppointment = [
+exports.addHistory = [
   authenticateJWT,
   (req, res) => {
-    const cita = req.body;
-    db.query("INSERT INTO citas SET ?", cita, (err, result) => {
+    const historial = req.body;
+    db.query("INSERT INTO historial_medico SET ?", historial, (err, result) => {
       if (err) {
-        res.status(500).send("Error al agregar la cita");
+        res.status(500).send("Error al agregar el historial");
         throw err;
       }
-      res.status(201).send("Cita agregada correctamente");
+      res.status(201).send("Histopial agregado correctamente");
     });
   },
 ];
 
 //Obtener todas las citas
-exports.getAllAppointment = [
+exports.getHistory = [
   authenticateJWT,
   (req, res) => {
-    const fecha_actual = req.params.date;
+    const id_usuario = req.params.id;
     db.query(
-      "SELECT nombre, correo_electronico, dia, hora_inicio FROM horarios_atencion NATURALJOIN citas NATURALJOIN pacientes WHERE dia >= ?",
-      [fecha_actual],
+      "SELECT nombre, fecha_emision, apellidoP, apellidoM, respaldo_resultado FROM pacientes NATURALJOIN historial_medico NATURALJOIN resultados WHERE id_usuario = ?",
+      id_usuario,
       async (err, result) => {
         if (err) {
-          res.status(500).send("Error al obtener las citas");
+          res.status(500).send("Error al obtener el historial");
           throw err;
         }
         res.json(result);
@@ -69,34 +69,14 @@ exports.getAllAppointment = [
   },
 ];
 
-// Actualizar un elemento existente
-exports.updateAppointment = [
-  authenticateJWT,
-  (req, res) => {
-    const id_cita = req.params.id;
-    const updatedCita = req.body;
-    db.query(
-      "UPDATE citas SET ? WHERE id_cita = ?",
-      [updatedCita, id_cita],
-      (err, result) => {
-        if (err) {
-          res.status(500).send("Error al actualizar el elemento");
-          throw err;
-        }
-        res.send("Elemento actualizado correctamente");
-      }
-    );
-  },
-];
-
 // Eliminar un elemento
-exports.deleteAppointment = [
+exports.deleteHistory = [
   authenticateJWT,
   (req, res) => {
-    const id_cita = req.params.id;
+    const id_historial = req.params.id;
     db.query(
-      "DELETE FROM citas WHERE id_cita = ?",
-      id_cita,
+      "DELETE FROM historial_medico WHERE id_historial = ?",
+      id_historial,
       (err, result) => {
         if (err) {
           res.status(500).send("Error al eliminar el elemento");
