@@ -1,43 +1,8 @@
-require("dotenv").config();
-
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-
 //Importamos dependencias
-const mysql = require("mysql2");
-
-//Iniciamos la párametros de conexión
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
-
-//Inica la conexión
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log("Conexión establecida");
-});
-
-//Validar token
-const authenticateJWT = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      req.user = user;
-      next();
-    });
-  } else {
-    res.sendStatus(400);
-  }
-};
+const authenticateJWT = require("../config/authenticateJWT");
+const db = require("../config/db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Agregar un nuevo usuario
 exports.addUser = (req, res) => {

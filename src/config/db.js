@@ -18,4 +18,4 @@ db.connect((err) => {
   console.log("Conexión establecida");
 });
 
-module.exports = db.promise();
+module.exports = db;
