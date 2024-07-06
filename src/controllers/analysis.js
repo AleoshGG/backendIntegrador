@@ -7,7 +7,7 @@ exports.addAnalysis = [
   authenticateJWT,
   (req, res) => {
     const analisis = req.body;
-    db.query("INSERT INTO resultados SET ?", analisis, (err, result) => {
+    db.query("INSERT INTO analisis SET ?", analisis, (err, result) => {
       if (err) {
         res.status(500).send("Error al agregar el analisis");
         throw err;
@@ -23,8 +23,25 @@ exports.getCategoryAnalysis = [
   (req, res) => {
     const categoria = req.params.categoria;
     db.query(
-      "SELECT nombre, clave_estudios, precio, descripcion, categoria FROM analisis WHERE categoria = ?",
+      "SELECT nombre, clave_estudios, precio, descripcion FROM analisis WHERE categoria = ?",
       categoria,
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener los analisis");
+          throw err;
+        }
+        res.json(result);
+      }
+    );
+  },
+];
+
+//Obtener todos los analisis
+exports.getAll = [
+  authenticateJWT,
+  (req, res) => {
+    db.query(
+      "SELECT id_analisis, nombre FROM analisis",
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener los analisis");

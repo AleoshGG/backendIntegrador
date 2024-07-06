@@ -10,6 +10,7 @@ exports.addAppointment = [
     db.query("INSERT INTO citas SET ?", cita, (err, result) => {
       if (err) {
         res.status(500).send("Error al agregar la cita");
+        return;
         throw err;
       }
       res.status(201).send("Cita agregada correctamente");
@@ -22,8 +23,8 @@ exports.getAllAppointment = [
   authenticateJWT,
   (req, res) => {
     const fecha_actual = req.params.date;
-    db.query(
-      "SELECT nombre, correo_electronico, dia, hora_inicio FROM horarios_atencion NATURALJOIN citas NATURALJOIN pacientes WHERE dia >= ?",
+    db.query(//Mover datos del paciente
+      "SELECT nombre, correo_electronico, fecha, hora_inicio FROM horarios_atencion NATURALJOIN citas NATURALJOIN pacientes WHERE fecha >= ?",
       [fecha_actual],
       async (err, result) => {
         if (err) {

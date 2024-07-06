@@ -11,8 +11,14 @@ const schedulesRouter = require("./routes/schedules");
 const appointmentsRouter = require("./routes/appointments");
 const priceRouter = require("./routes/price");
 const historyRouter = require("./routes/history");
+const gendersRouter = require("./routes/genders");
+const coloniesRouter = require("./routes/colonies");
+const direccionRouter = require("./routes/direccion");
+const horarioRouter = require("./routes/horario");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT;
 
 // Middleware para analizar los cuerpos de las solicitudes
@@ -29,7 +35,10 @@ app.use("/schedules", schedulesRouter);
 app.use("/appointments", appointmentsRouter);
 app.use("/price", priceRouter);
 app.use("/history", historyRouter);
-
+app.use("/genders", gendersRouter);
+app.use("/colonies", coloniesRouter);
+app.use("/direcciones", direccionRouter);
+app.use("/horarios", horarioRouter);
 
 // Iniciar el servidor
 app.listen(port, () => {

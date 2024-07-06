@@ -19,6 +19,7 @@ exports.addUser = (req, res) => {
     db.query("INSERT INTO usuarios SET ?", newUser, (err, result) => {
       if (err) {
         res.status(500).send("Error al agregar el usuario");
+        return;
         throw err;
       }
       res.status(201).send("Usuario agregado correctamente");
@@ -31,7 +32,7 @@ exports.login = async (req, res) => {
   const { correo_electronico, password, rol } = req.body;
 
   db.query(
-    "SELECT * FROM usuarios WHERE correo_electronico = ? AND rol = ?",
+    "SELECT * FROM usuarios WHERE correo_electronico = ?",
     [correo_electronico, rol],
     async (err, result) => {
       if (err) {
@@ -66,10 +67,10 @@ exports.login = async (req, res) => {
 exports.getUser = [
   authenticateJWT,
   (req, res) => {
-    const id_usuario = req.params.id;
+    //const id_usuario = req.params.id;
     db.query(
-      "SELECT nombre, apellidoP, apellidoM, correo_electronico, telefono FROM usuarios WHERE id_usuario = ?",
-      id_usuario,
+      "SELECT nombre, apellidoP, apellidoM, correo_electronico, telefono FROM usuarios",
+      
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener los usuarios");

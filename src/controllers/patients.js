@@ -8,6 +8,7 @@ exports.addPatient = [authenticateJWT, (req, res) => {
     db.query("INSERT INTO pacientes SET ?", patient, (err, result) => {
         if (err) {
             res.status(500).send("Error al agregar al paciente");
+            return;
             throw err;
         }
         res.status(201).send("Paciente agregado correctamente");
