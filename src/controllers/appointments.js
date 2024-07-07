@@ -32,13 +32,13 @@ exports.addAppointment = [
 ];
 
 //Obtener todas las citas
-exports.getAllAppointment = [
+exports.getAll = [
   authenticateJWT,
   (req, res) => {
-    const fecha_actual = req.params.date;
+    const fecha_actual = req.params.fecha_actual;
     db.query(
       //Mover datos del paciente
-      "SELECT nombre, correo_electronico, fecha, hora_inicio FROM horarios_atencion NATURALJOIN citas NATURALJOIN pacientes WHERE fecha >= ?",
+      "SELECT id_cita, apellidoP, apellidoM, telefono, fecha, horario_inicio FROM pacientes NATURAL JOIN citas NATURAL JOIN horarios_atencion WHERE fecha >= ?;",
       [fecha_actual],
       async (err, result) => {
         if (err) {
@@ -50,6 +50,28 @@ exports.getAllAppointment = [
     );
   },
 ];
+
+//Obtener la solicitud de estudios
+exports.getSolicitud = [
+  authenticateJWT,
+  (req, res) => {
+    const id_cita = req.params.id_cita;
+    db.query(
+      //Mover datos del paciente
+      "SELECT solicitud_estudios FROM citas WHERE id_cita = ?;",
+      id_cita,
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener el documento");
+          throw err;
+        }
+        res.json(result);
+      }
+    );
+  },
+];
+
+
 
 // Actualizar un elemento existente
 exports.updateAppointment = [
