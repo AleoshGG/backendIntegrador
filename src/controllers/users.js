@@ -29,11 +29,11 @@ exports.addUser = (req, res) => {
 
 //Login
 exports.login = async (req, res) => {
-  const { correo_electronico, password, rol } = req.body;
-
+  const { correo_electronico, password } = req.body;
+  console.log(correo_electronico);
   db.query(
     "SELECT * FROM usuarios WHERE correo_electronico = ?",
-    [correo_electronico, rol],
+    [correo_electronico],
     async (err, result) => {
       if (err) {
         res.status(500).send("Error en el servidor");
