@@ -13,7 +13,11 @@ exports.addDireccion = [
         return;
         throw err;
       }
-      res.status(201).send("Direccion agregada correctamente");
+      res.status(201);
+      res.json({
+        messaje: "Direccion creada correctamente", 
+        id_direccion: res.insertId
+      });
     });
   },
 ];

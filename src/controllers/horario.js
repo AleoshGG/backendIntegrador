@@ -13,7 +13,11 @@ exports.addHorario = [
         return;
         throw err;
       }
-      res.status(201).send("horario agregado correctamente");
+      res.status(201);
+      res.json({
+        messaje: "Horario creado correctamente", 
+        id_horario: result.insertId
+      });;
     });
   },
 ];

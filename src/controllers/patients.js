@@ -11,7 +11,11 @@ exports.addPatient = [authenticateJWT, (req, res) => {
             return;
             throw err;
         }
-        res.status(201).send("Paciente agregado correctamente");
+        res.status(201);
+        res.json({
+          messaje: "Paciente creado correctamente", 
+          id_paciente: res.insertId
+        });
     });
 }];
 
@@ -23,7 +27,7 @@ exports.deletePatient = [authenticateJWT, (req, res) => {
             res.status(500).send("Error al eliminar al paciente");
             throw err;
         }
-        res.status(201).send("Paciente eliminado correctamente");
+        res.status(201).send("Elemento eliminado correctamente");
     });
 }];
 
