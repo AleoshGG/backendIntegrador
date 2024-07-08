@@ -24,7 +24,7 @@ exports.addAppointment = [
       if (err) {
         res.status(500).send("Error al agregar la cita");
         console.log(err);
-        return
+        return;
       }
       res.status(201).send("Cita agregada correctamente");
     });
@@ -71,8 +71,6 @@ exports.getSolicitud = [
   },
 ];
 
-
-
 // Actualizar un elemento existente
 exports.updateAppointment = [
   authenticateJWT,
@@ -101,9 +99,13 @@ exports.deleteAppointment = [
     db.query("DELETE FROM citas WHERE id_cita = ?", id_cita, (err, result) => {
       if (err) {
         res.status(500).send("Error al eliminar el elemento");
+        return
         throw err;
       }
-      res.send("Elemento eliminado correctamente");
+      res.status(200);
+      res.json({
+        msg: "Eliminado"
+      });
     });
   },
 ];
