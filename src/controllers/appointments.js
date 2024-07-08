@@ -38,7 +38,7 @@ exports.getAll = [
     const fecha_actual = req.params.fecha_actual;
     db.query(
       //Mover datos del paciente
-      "SELECT id_cita, apellidoP, apellidoM, telefono, fecha, horario_inicio FROM pacientes NATURAL JOIN citas NATURAL JOIN horarios_atencion WHERE fecha >= ?;",
+      "SELECT id_cita, nombre, apellidoP, apellidoM, telefono, fecha, horario_inicio FROM pacientes NATURAL JOIN citas NATURAL JOIN horarios_atencion WHERE fecha >= ? GROUP BY id_cita;",
       [fecha_actual],
       async (err, result) => {
         if (err) {

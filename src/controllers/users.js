@@ -52,12 +52,13 @@ exports.login = async (req, res) => {
       }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "2h",
       });
 
       res.json({
         message: "Credenciales válidas",
         token,
+        id_usuario: user.id_usuario
       });
     }
   );
