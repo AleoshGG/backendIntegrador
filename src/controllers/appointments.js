@@ -55,17 +55,24 @@ exports.getAll = [
 exports.getSolicitud = [
   authenticateJWT,
   (req, res) => {
-    const id_cita = req.params.id_cita;
+    const id_cita = req.params.id;
     db.query(
       //Mover datos del paciente
-      "SELECT solicitud_estudios FROM citas WHERE id_cita = ?;",
+      "SELECT solicitud_estudios FROM citas WHERE id_cita = ?",
       id_cita,
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener el documento");
           throw err;
         }
-        res.json(result);
+
+        const pdfBlob = result[0].solicitud_estudios;
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+          "Content-Disposition",
+          "attachment; filename=yourfile.pdf"
+        );
+        res.send(pdfBlob);
       }
     );
   },
@@ -99,12 +106,12 @@ exports.deleteAppointment = [
     db.query("DELETE FROM citas WHERE id_cita = ?", id_cita, (err, result) => {
       if (err) {
         res.status(500).send("Error al eliminar el elemento");
-        return
+        return;
         throw err;
       }
       res.status(200);
       res.json({
-        msg: "Eliminado"
+        msg: "Eliminado",
       });
     });
   },

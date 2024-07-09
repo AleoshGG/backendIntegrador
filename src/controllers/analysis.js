@@ -23,7 +23,7 @@ exports.getCategoryAnalysis = [
   (req, res) => {
     const categoria = req.params.categoria;
     db.query(
-      "SELECT nombre, clave_estudios, precio, descripcion FROM analisis WHERE categoria = ?",
+      "SELECT id_analisis, nombre, clave_estudios, precio, descripcion FROM analisis WHERE id_categoria = ?",
       categoria,
       async (err, result) => {
         if (err) {
