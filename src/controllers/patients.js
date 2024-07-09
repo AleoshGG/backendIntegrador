@@ -14,7 +14,7 @@ exports.addPatient = [authenticateJWT, (req, res) => {
         res.status(201);
         res.json({
           messaje: "Paciente creado correctamente", 
-          id_paciente: res.insertId
+          id_paciente: result.insertId
         });
     });
 }];

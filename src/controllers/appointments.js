@@ -26,7 +26,9 @@ exports.addAppointment = [
         console.log(err);
         return;
       }
-      res.status(201).send("Cita agregada correctamente");
+      res.status(201);
+
+      res.json({ msg: "Cita agregada correctamente" });
     });
   },
 ];
