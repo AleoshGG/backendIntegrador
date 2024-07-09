@@ -92,3 +92,24 @@ exports.deleteAnalysis = [
     );
   },
 ];
+
+//Buscar un elemento
+exports.searchAnalysis = [
+  authenticateJWT,
+  (req, res) => {
+    const id_categoria = req.params.id;
+    const nombre = req.params.nombre;
+    const nombreLike = `%${nombre}%`;
+    db.query(
+      "SELECT id_analisis, nombre, clave_estudios, precio, descripcion FROM analisis WHERE id_categoria = ? AND nombre LIKE ?",
+      [id_categoria, nombreLike],
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener el análisi");
+          throw err;
+        }
+        res.json(result);
+      }
+    );
+  },
+];
