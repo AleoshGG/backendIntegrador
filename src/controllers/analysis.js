@@ -21,10 +21,10 @@ exports.addAnalysis = [
 exports.getCategoryAnalysis = [
   authenticateJWT,
   (req, res) => {
-    const categoria = req.params.categoria;
+    const id_categoria = req.params.id;
     db.query(
       "SELECT id_analisis, nombre, clave_estudios, precio, descripcion FROM analisis WHERE id_categoria = ?",
-      categoria,
+      id_categoria,
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener los analisis");

@@ -70,7 +70,7 @@ exports.getSolicitud = [
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader(
           "Content-Disposition",
-          "attachment; filename=yourfile.pdf"
+          "attachment; filename=Solicitud.pdf"
         );
         res.send(pdfBlob);
       }

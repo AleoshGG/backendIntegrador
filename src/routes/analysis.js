@@ -4,7 +4,7 @@ const router = express.Router();
 const analysisController = require("../controllers/analysis");
 
 //Rutas para los endpoinds 
-router.get("/allCategory/:category", analysisController.getCategoryAnalysis);
+router.get("/allCategory/:id", analysisController.getCategoryAnalysis);
 router.get("/getAll/", analysisController.getAll);
 router.post("/add/", analysisController.addAnalysis);
 router.put("/update/:id", analysisController.updateAnalysis)
