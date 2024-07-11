@@ -18,6 +18,7 @@ exports.addAppointment = [
       id_analisis: req.body.id_analisis,
       solicitud_estudios: req.file.buffer,
       id_cotizacion: req.body.id_cotizacion,
+      fecha: req.body.fecha,
     };
 
     db.query("INSERT INTO citas SET ?", cita, (err, result) => {
@@ -40,7 +41,7 @@ exports.getAll = [
     const fecha_actual = req.params.fecha_actual;
     db.query(
       //Mover datos del paciente
-      "SELECT id_cita, nombre, apellidoP, apellidoM, telefono, fecha, horario_inicio FROM pacientes NATURAL JOIN citas NATURAL JOIN horarios_atencion WHERE fecha >= ? AND id_horario_atencion = id_horario;",
+      "SELECT id_cita, nombre, apellidoP, apellidoM, telefono, fecha, horario_inicio FROM pacientes NATURAL JOIN citas NATURAL JOIN horarios_atencion WHERE fecha >= ? AND id_horario_atencion = id_horario ORDER BY fecha ASC;",
       [fecha_actual],
       async (err, result) => {
         if (err) {
@@ -80,21 +81,29 @@ exports.getSolicitud = [
   },
 ];
 
-// Actualizar un elemento existente
-exports.updateAppointment = [
+//Obtener todas las citas
+exports.exist = [
   authenticateJWT,
   (req, res) => {
-    const id_cita = req.params.id;
-    const updatedCita = req.body;
+    const fecha_actual = req.params.fecha_actual;
+    const id_horario_atencion = req.params.id_horario_atencion;
     db.query(
-      "UPDATE citas SET ? WHERE id_cita = ?",
-      [updatedCita, id_cita],
-      (err, result) => {
+      //Mover datos del paciente
+      "SELECT fecha, id_horario FROM citas NATURAL JOIN horarios_atencion WHERE fecha = ? AND id_horario = ? AND id_horario_atencion = id_horario;",
+      [fecha_actual, id_horario_atencion],
+      async (err, result) => {
         if (err) {
-          res.status(500).send("Error al actualizar el elemento");
+          res.status(500).send("Error al obtener las citas");
           throw err;
         }
-        res.send("Elemento actualizado correctamente");
+
+        if(result.length == 1) {
+          res.json({
+            msg: "Existe una cita agendada"
+          })
+        } else {
+          res.json(result);
+        }       
       }
     );
   },

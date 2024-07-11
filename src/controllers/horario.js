@@ -3,21 +3,17 @@ const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
 
 //Agregar un nuevo horario
-exports.addHorario = [
+exports.getHorario = [
   authenticateJWT,
   (req, res) => {
-    const horario = req.body;
-    db.query("INSERT INTO horarios_atencion SET ?", horario, (err, result) => {
+    db.query("SELECT * FROM horarios_atencion", (err, result) => {
       if (err) {
-        res.status(500).send("Error al agregar el horario");
+        res.status(500).send("Error al obtener los horarios");
         return;
         throw err;
       }
       res.status(201);
-      res.json({
-        messaje: "Horario creado correctamente", 
-        id_horario: result.insertId
-      });;
+      res.json(result);;
     });
   },
 ];

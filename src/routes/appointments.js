@@ -6,7 +6,7 @@ const appointmentController = require("../controllers/appointments");
 router.post("/add/", appointmentController.addAppointment);
 router.get("/getAll/:fecha_actual", appointmentController.getAll);
 router.get("/getSolicitud/:id", appointmentController.getSolicitud);
-router.put("/update/:id", appointmentController.updateAppointment);
+router.get("/exist/:fecha_actual/:id_horario_atencion", appointmentController.exist);
 router.delete("/delete/:id", appointmentController.deleteAppointment);
 
 module.exports = router;

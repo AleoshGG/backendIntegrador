@@ -4,6 +4,6 @@ const router = express.Router();
 const horarioController = require("../controllers/horario");
 
 //Rutas para los endpoinds 
-router.post("/add", horarioController.addHorario);
+router.get("/getAll", horarioController.getHorario);
 
 module.exports = router;
