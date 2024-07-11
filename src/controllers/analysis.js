@@ -1,4 +1,5 @@
 //Importamos dependencias
+require('dotenv').config();
 const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
 

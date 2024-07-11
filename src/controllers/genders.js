@@ -1,7 +1,7 @@
 //Importamos dependencias
 const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
-const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 // Obtener todos los géneros
 exports.getGender = [

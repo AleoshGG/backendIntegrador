@@ -1,7 +1,7 @@
 //Importamos dependencias
+require('dotenv').config();
 const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
-const jwt = require("jsonwebtoken");
 
 // Obtener todos los géneros
 exports.getColinies = [

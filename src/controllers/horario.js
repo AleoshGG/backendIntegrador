@@ -1,6 +1,7 @@
 //Importamos dependencias
 const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
+require('dotenv').config();
 
 //Agregar un nuevo horario
 exports.getHorario = [

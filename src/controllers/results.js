@@ -1,6 +1,7 @@
 //Importamos dependencias
 const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
+require('dotenv').config();
 
 //Añadir un resultado
 exports.addResult = [authenticateJWT, (req, res) => {
