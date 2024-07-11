@@ -3,7 +3,7 @@ const authenticateJWT = require("../config/authenticateJWT");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
 // Agregar un nuevo usuario
 exports.addUser = (req, res) => {
@@ -59,7 +59,7 @@ exports.login = async (req, res) => {
       res.json({
         message: "Credenciales válidas",
         token,
-        id_usuario: user.id_usuario
+        id_usuario: user.id_usuario,
       });
     }
   );
@@ -72,7 +72,7 @@ exports.getUser = [
     //const id_usuario = req.params.id;
     db.query(
       "SELECT nombre, apellidoP, apellidoM, correo_electronico, telefono FROM usuarios",
-      
+
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener los usuarios");
@@ -154,10 +154,11 @@ exports.deleteUser = [
 exports.searchUser = [
   authenticateJWT,
   (req, res) => {
-    const user = req.body;
+    const user = req.params.nombre;
+    const id_rol = req.params.id_rol;
     db.query(
-      "SELECT id_usuario FROM usuarios WHERE nombre = ? OR apellidoP = ?",
-      [user.nombre, user.apellidoP],
+      "SELECT id_usuario, nombre, apellidoP, apellidoM FROM usuarios WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE) AND id_rol = ?;",
+      [user, id_rol],
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener el usuario");
