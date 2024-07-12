@@ -6,7 +6,7 @@ const usersController = require("../controllers/users");
 router.post("/addUser/", usersController.addUser);
 router.get("/login/", usersController.login);
 router.get("/profile/", usersController.getUser); // URL
-router.get("/search/:nombre/:id_rol", usersController.searchUser);
+router.get("/search/:nombre", usersController.searchUser);
 router.get("/getRecep/:id", usersController.getRecep);
 router.put("/updateUser/:id", usersController.updateUser);
 router.delete("/deleteUser/:id", usersController.deleteUser);

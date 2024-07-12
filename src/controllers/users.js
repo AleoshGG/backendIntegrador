@@ -155,9 +155,9 @@ exports.searchUser = [
   authenticateJWT,
   (req, res) => {
     const user = req.params.nombre;
-    const id_rol = req.params.id_rol;
+    const id_rol = 1;
     db.query(
-      "SELECT id_usuario, nombre, apellidoP, apellidoM FROM usuarios WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE) AND id_rol = ?;",
+      "SELECT id_usuario, nombre, apellidoP, apellidoM FROM usuarios WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE) AND id_rol = ? LIMIT 1;",
       [user, id_rol],
       async (err, result) => {
         if (err) {

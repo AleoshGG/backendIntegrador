@@ -35,20 +35,20 @@ exports.deletePatient = [authenticateJWT, (req, res) => {
 
 //Buscar un elemento
 exports.searchPatient = [
-    authenticateJWT,
-    (req, res) => {
-      const user = req.body;
-      db.query(
-        "SELECT id_paciente FROM pacientes WHERE nombre = ? OR apellidoP = ?",
-        [user.nombre, user.apellidoP],
-        async (err, result) => {
-          if (err) {
-            res.status(500).send("Error al obtener el paciente");
-            throw err;
-          }
-          res.json(result);
+  authenticateJWT,
+  (req, res) => {
+    const name = req.params.nombre;
+    db.query(
+      "SELECT id_paciente, nombre, apellidoP, apellidoM FROM pacientes WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE) LIMIT 1;",
+      name,
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener el paciente");
+          throw err;
         }
-      );
-    },
-  ];
+        res.json(result);
+      }
+    );
+  },
+];
   
