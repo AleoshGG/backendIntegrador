@@ -11,7 +11,8 @@ exports.addPrice = [
     db.query("INSERT INTO cotizacion SET ?", cotizacion, (err, result) => {
       if (err) {
         res.status(500).send("Error al agregar la cotizacion");
-        throw err;
+         console.log(err);
+         return
       }
       res.status(201).send("Cotrizacion agregada correctamente");
     });
@@ -19,11 +20,12 @@ exports.addPrice = [
 ];
 
 //Obtener todas las citas
-exports.getAllPrice = [
+exports.getIdPrice = [
   authenticateJWT,
   (req, res) => {
+    const id_usuario = req.body.id_usuario;
     db.query(
-      "SELECT nombre, decripcion, costo, precio, promocion FROM analisis NATURALJOIN cotizacion NATURALJOIN promociones",
+      "SELECT id_analisis FROM cotizacion WHERE id_usuario = ?", id_usuario,
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener las cotizaciones");
@@ -39,10 +41,11 @@ exports.getAllPrice = [
 exports.deletePrice = [
   authenticateJWT,
   (req, res) => {
-    const id_cotizacion = req.params.id;
+    const id_analisis = req.params.id_analisis;
+    const id_usuario = req.params.id_usuario;
     db.query(
-      "DELETE FROM cotizacion WHERE id_cotizacion = ?",
-      id_cotizacion,
+      "DELETE FROM cotizacion WHERE id_analisis = ? AND id_usuario = ?",
+      [id_analisis, id_usuario],
       (err, result) => {
         if (err) {
           res.status(500).send("Error al eliminar el elemento");

@@ -22,10 +22,12 @@ exports.addHistory = [
 exports.getHistory = [
   authenticateJWT,
   (req, res) => {
+    const nombre = req.params.nombre;
     const id_usuario = req.params.id;
+    const fecha_emicion = req.params.fecha;
     db.query(
-      "SELECT nombre, fecha_emision, apellidoP, apellidoM, respaldo_resultado FROM pacientes NATURALJOIN historial_medico NATURALJOIN resultados WHERE id_usuario = ?",
-      id_usuario,
+      "SELECT id_historial, nombre, apellidoP, apellidoM, respaldo_resultado, fecha_emicion FROM historial_medico NATURAL JOIN pacientes NATURAL JOIN resultados WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE)  AND id_resultado = id_resultado AND id_usuario = ? OR fecha_emicion = ?;",
+      [nombre, id_usuario, fecha_emicion],
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener el historial");
@@ -55,3 +57,4 @@ exports.deleteHistory = [
     );
   },
 ];
+
