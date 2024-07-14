@@ -37,6 +37,23 @@ exports.getIdPrice = [
   },
 ];
 
+exports.getAllPrice = [
+  authenticateJWT,
+  (req, res) => {
+    const id_usuario = req.body.id_usuario;
+    db.query(
+      "SELECT id_analisis, nombre, precio FROM cotizacion natural join analisis WHERE id_analisis = id_analisis AND id_usuario = ?", id_usuario,
+      async (err, result) => {
+        if (err) {
+          res.status(500).send("Error al obtener las cotizaciones");
+          throw err;
+        }
+        res.json(result);
+      }
+    );
+  },
+];
+
 // Eliminar un elemento
 exports.deletePrice = [
   authenticateJWT,
