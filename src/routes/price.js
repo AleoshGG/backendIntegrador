@@ -7,6 +7,7 @@ router.post("/add/", priceController.addPrice);
 router.post("/getID/", priceController.getIdPrice);
 router.post("/getAll/", priceController.getAllPrice);
 router.delete("/delete/:id_analisis/:id_usuario", priceController.deletePrice);
+router.delete("/deleteAll/:id_usuario", priceController.deleteAll);
 
 
 module.exports = router;

@@ -42,8 +42,7 @@ exports.getAllSales = [
   authenticateJWT,
   (req, res) => {
     db.query(
-      "SELECT monto, fecha_pago FROM ventas",
-      [user.nombre, user.apellidoP],
+      "SELECT id_pago, nombre, apellidoP, apellidoM, monto, fecha_pago FROM ventas NATURAL JOIN pacientes WHERE id_paciente = id_paciente ORDER BY fecha_pago DESC;",
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener las ventas");

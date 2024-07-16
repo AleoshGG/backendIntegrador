@@ -73,3 +73,22 @@ exports.deletePrice = [
     );
   },
 ];
+
+// Eliminar un elemento
+exports.deleteAll = [
+  authenticateJWT,
+  (req, res) => {
+    const id_usuario = req.params.id_usuario;
+    db.query(
+      "DELETE FROM cotizacion WHERE id_usuario = ?",
+      [id_usuario],
+      (err, result) => {
+        if (err) {
+          res.status(500).send("Error al eliminar el elemento");
+          throw err;
+        }
+        res.send("Elemento eliminado correctamente");
+      }
+    );
+  },
+];
