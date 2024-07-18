@@ -15,6 +15,7 @@ const gendersRouter = require("./routes/genders");
 const coloniesRouter = require("./routes/colonies");
 const direccionRouter = require("./routes/direccion");
 const horarioRouter = require("./routes/horario");
+const categoriasRouter = require("./routes/categorias");
 const cors = require("cors");
 
 const app = express();
@@ -39,6 +40,7 @@ app.use("/genders", gendersRouter);
 app.use("/colonies", coloniesRouter);
 app.use("/direcciones", direccionRouter);
 app.use("/horarios", horarioRouter);
+app.use("/categorias", categoriasRouter);
 
 // Iniciar el servidor
 app.listen(port, () => {

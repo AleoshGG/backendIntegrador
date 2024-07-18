@@ -58,7 +58,7 @@ exports.getAll = [
 exports.updateAnalysis = [
   authenticateJWT,
   (req, res) => {
-    const id_analisis = req.params.id;
+    const id_analisis = req.params.id_analisis;
     const analisis = req.body;
 
     db.query(
@@ -98,12 +98,11 @@ exports.deleteAnalysis = [
 exports.searchAnalysis = [
   authenticateJWT,
   (req, res) => {
-    const id_categoria = req.params.id;
-    const nombre = req.params.nombre;
-    const nombreLike = `%${nombre}%`;
+    const clave_estudios = req.params.clave_estudios;
+
     db.query(
-      "SELECT id_analisis, nombre, clave_estudios, precio, descripcion FROM analisis WHERE id_categoria = ? AND nombre LIKE ?",
-      [id_categoria, nombreLike],
+      "SELECT * FROM analisis WHERE clave_estudios = ?",
+      clave_estudios,
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener el análisi");
