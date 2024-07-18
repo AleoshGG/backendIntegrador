@@ -11,7 +11,8 @@ exports.addAnalysis = [
     db.query("INSERT INTO analisis SET ?", analisis, (err, result) => {
       if (err) {
         res.status(500).send("Error al agregar el analisis");
-        throw err;
+        console.log(err)
+        return
       }
       res.status(201).send("Analisis agregado correctamente");
     });
@@ -101,7 +102,7 @@ exports.searchAnalysis = [
     const clave_estudios = req.params.clave_estudios;
 
     db.query(
-      "SELECT * FROM analisis WHERE clave_estudios = ?",
+      "SELECT * FROM analisis WHERE clave_estudios = ? LIMIT 1",
       clave_estudios,
       async (err, result) => {
         if (err) {
