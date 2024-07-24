@@ -156,7 +156,7 @@ exports.updatePassword = [
             console.log(err);
             return;
           }
-          res.status(200).send("Contraseña Actualizada");;
+          res.status(200).send("Contraseña Actualizada");
         }
       );
     });
