@@ -18,7 +18,6 @@ exports.addAppointment = [
       id_horario_atencion: req.body.id_horario_atencion,
       id_analisis: req.body.id_analisis,
       solicitud_estudios: req.file.buffer,
-      id_cotizacion: req.body.id_cotizacion,
       fecha: req.body.fecha,
     };
 

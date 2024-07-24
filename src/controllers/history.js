@@ -26,8 +26,8 @@ exports.getHistory = [
     const id_usuario = req.params.id;
     const fecha_emicion = req.params.fecha;
     db.query(
-      "SELECT id_historial, nombre, apellidoP, apellidoM, respaldo_resultado, fecha_emicion FROM historial_medico NATURAL JOIN pacientes NATURAL JOIN resultados WHERE MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE)  AND id_resultado = id_resultado AND id_usuario = ? OR fecha_emicion = ?;",
-      [nombre, id_usuario, fecha_emicion],
+      "SELECT id_historial, nombre, apellidoP, apellidoM, respaldo_resultado, fecha_emicion FROM historial_medico NATURAL JOIN pacientes NATURAL JOIN resultados WHERE (MATCH(nombre, apellidoP, apellidoM) AGAINST (? IN NATURAL LANGUAGE MODE) OR fecha_emicion = ?) and id_usuario = ? and id_resultado = id_resultado;",
+      [nombre, fecha_emicion, id_usuario],
       async (err, result) => {
         if (err) {
           res.status(500).send("Error al obtener el historial");
